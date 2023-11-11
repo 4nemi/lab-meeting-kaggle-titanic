@@ -13,7 +13,8 @@ def load_data(features):
 def train():
     train = pd.read_csv("../data/train.csv")
     test = pd.read_csv("../data/test.csv")
-    train_feat, test_feat = load_data(["Age"])
+    created_features = ["Age", "Fare", "Pclass", "Embarked"]
+    train_feat, test_feat = load_data(created_features)
 
     y = train["Survived"]
 
@@ -22,9 +23,10 @@ def train():
     X_test = pd.get_dummies(test[features])
 
     X = pd.concat([X, train_feat], axis=1)
+    print(X.head())
     X_test = pd.concat([X_test, test_feat], axis=1)
 
-    model = RandomForestClassifier(n_estimators=100, random_state=42, max_depth=3)
+    model = RandomForestClassifier(n_estimators=100, random_state=42, max_depth=5)
     model.fit(X, y)
     predictions = model.predict(X_test)
 
